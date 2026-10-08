@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>网络流量分析报告 - 示例</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --panel: #ffffff;
+      --ink: #162033;
+      --muted: #5d6b82;
+      --line: #dce5f0;
+      --blue: #225ea8;
+      --teal: #0f8b8d;
+      --orange: #d97706;
+      --red: #c24141;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+      line-height: 1.55;
+    }
+    header {
+      background: linear-gradient(120deg, #123b70, #0f8b8d);
+      color: #fff;
+      padding: 34px 28px;
+    }
+    header h1 { margin: 0 0 8px; font-size: 28px; }
+    header p { margin: 0; opacity: .88; }
+    main { max-width: 1180px; margin: 0 auto; padding: 24px; }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 8px 24px rgba(28, 44, 70, .05);
+    }
+    .card .label { color: var(--muted); font-size: 13px; }
+    .card .value { font-size: 25px; font-weight: 700; margin-top: 4px; }
+    section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+    h2 { margin: 0 0 14px; font-size: 18px; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+    table { width: 100%; border-collapse: collapse; }
+    th, td {
+      text-align: left;
+      padding: 8px 6px;
+      border-bottom: 1px solid #edf1f6;
+      vertical-align: middle;
+    }
+    th { color: var(--muted); font-size: 12px; font-weight: 600; }
+    td { font-size: 13px; }
+    .bar-track {
+      background: #e9eff7;
+      height: 8px;
+      border-radius: 99px;
+      overflow: hidden;
+      min-width: 90px;
+    }
+    .bar {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, var(--blue), var(--teal));
+    }
+    .alert {
+      border-left: 4px solid var(--red);
+      background: #fff1f1;
+      padding: 12px 14px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+    .alert-head {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 5px;
+    }
+    .badge {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      padding: 2px 7px;
+      border-radius: 99px;
+      background: var(--red);
+      color: #fff;
+    }
+    .alert p { margin: 0 0 3px; }
+    .alert small { color: var(--muted); }
+    footer {
+      color: var(--muted);
+      text-align: center;
+      padding: 12px 20px 30px;
+      font-size: 12px;
+    }
+    @media (max-width: 820px) {
+      .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>网络流量分析报告</h1>
+  <p>示例文件：sample.pcap · 生成工具：network-traffic-analyzer</p>
+</header>
+<main>
+  <div class="cards">
+    <div class="card"><div class="label">总数据包</div><div class="value">49</div></div>
+    <div class="card"><div class="label">总流量</div><div class="value">3.86 KB</div></div>
+    <div class="card"><div class="label">捕获时长</div><div class="value">0.42 s</div></div>
+    <div class="card"><div class="label">告警数量</div><div class="value">1</div></div>
+  </div>
+
+  <section>
+    <h2>异常告警</h2>
+    <article class="alert">
+      <div class="alert-head"><span class="badge">high</span><strong>端口扫描</strong></div>
+      <p>10.0.0.99 向 30 个不同端口发起 TCP SYN</p>
+      <small>SYN 包 30 个，目标端口示例：1, 2, 3, 4, 5, 6, 7, 8</small>
+    </article>
+  </section>
+
+  <div class="grid">
+    <section>
+      <h2>协议分布</h2>
+      <table>
+        <thead><tr><th>协议</th><th>数据包</th><th>占比</th></tr></thead>
+        <tbody>
+          <tr><td>TCP</td><td>36</td><td><div class="bar-track"><span class="bar" style="width:100%"></span></div></td></tr>
+          <tr><td>UDP</td><td>10</td><td><div class="bar-track"><span class="bar" style="width:28%"></span></div></td></tr>
+          <tr><td>ICMP</td><td>3</td><td><div class="bar-track"><span class="bar" style="width:8%"></span></div></td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section>
+      <h2>TCP 标志位</h2>
+      <table>
+        <thead><tr><th>标志</th><th>数据包</th></tr></thead>
+        <tbody>
+          <tr><td>SYN</td><td>30</td></tr>
+          <tr><td>ACK</td><td>6</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <div class="grid">
+    <section>
+      <h2>Top 源 IP</h2>
+      <table>
+        <thead><tr><th>IP</th><th>数据包</th><th>相对量</th></tr></thead>
+        <tbody>
+          <tr><td>10.0.0.99</td><td>30</td><td><div class="bar-track"><span class="bar" style="width:100%"></span></div></td></tr>
+          <tr><td>192.168.1.10</td><td>14</td><td><div class="bar-track"><span class="bar" style="width:47%"></span></div></td></tr>
+          <tr><td>8.8.8.8</td><td>5</td><td><div class="bar-track"><span class="bar" style="width:17%"></span></div></td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section>
+      <h2>Top 目的 IP</h2>
+      <table>
+        <thead><tr><th>IP</th><th>数据包</th><th>相对量</th></tr></thead>
+        <tbody>
+          <tr><td>192.168.1.10</td><td>30</td><td><div class="bar-track"><span class="bar" style="width:100%"></span></div></td></tr>
+          <tr><td>10.0.0.5</td><td>9</td><td><div class="bar-track"><span class="bar" style="width:30%"></span></div></td></tr>
+          <tr><td>8.8.8.8</td><td>5</td><td><div class="bar-track"><span class="bar" style="width:17%"></span></div></td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <section>
+    <h2>数据包预览（前 8 条）</h2>
+    <table>
+      <thead><tr><th>#</th><th>时间</th><th>源</th><th>目的</th><th>协议</th><th>标志 / 类型</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>1700000000.000</td><td>192.168.1.10:41000</td><td>10.0.0.5:80</td><td>TCP</td><td>SYN</td></tr>
+        <tr><td>2</td><td>1700000000.010</td><td>192.168.1.10:41001</td><td>10.0.0.5:80</td><td>TCP</td><td>ACK</td></tr>
+        <tr><td>3</td><td>1700000000.020</td><td>192.168.1.10:53000</td><td>8.8.8.8:53</td><td>UDP</td><td>-</td></tr>
+        <tr><td>4</td><td>1700000000.030</td><td>8.8.8.8:53</td><td>192.168.1.10:53000</td><td>UDP</td><td>-</td></tr>
+        <tr><td>5</td><td>1700000000.040</td><td>192.168.1.10</td><td>10.0.0.5</td><td>ICMP</td><td>type=8</td></tr>
+        <tr><td>6</td><td>1700000000.050</td><td>10.0.0.99:55001</td><td>192.168.1.10:1</td><td>TCP</td><td>SYN</td></tr>
+        <tr><td>7</td><td>1700000000.055</td><td>10.0.0.99:55002</td><td>192.168.1.10:2</td><td>TCP</td><td>SYN</td></tr>
+        <tr><td>8</td><td>1700000000.060</td><td>10.0.0.99:55003</td><td>192.168.1.10:3</td><td>TCP</td><td>SYN</td></tr>
+      </tbody>
+    </table>
+  </section>
+</main>
+<footer>本报告由 network-traffic-analyzer 自动生成。仅用于授权网络、公开数据集或自有实验环境。</footer>
+</body>
+</html>

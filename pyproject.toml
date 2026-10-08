@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "network-traffic-analyzer"
+version = "0.1.0"
+description = "A dependency-free Python tool for pcap traffic analysis, top talkers and port-scan detection."
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+authors = [
+  { name = "Wang Weimin" }
+]
+dependencies = []
+
+[project.scripts]
+traffic-analyzer = "traffic_analyzer.cli:main"
+
+[tool.setuptools]
+packages = ["traffic_analyzer"]
